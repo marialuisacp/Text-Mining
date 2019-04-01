@@ -9,7 +9,7 @@ __maintainer__ = "Ahirton Lopes"
 __email__ = "ahirtonlopes@gmail.com"
 __status__ = "Beta"
 """
-from nltk.compat import raw_input
+# from nltk.compat import raw_input
 
 """
 Este modulo contem funcoes que fazem o tratamento do texto e o coloca em vários formatos
@@ -17,10 +17,9 @@ Este modulo contem funcoes que fazem o tratamento do texto e o coloca em vários
 
 import re
 import nltk
-import semantic_dictionaries
 
 import unicodedata
-import file_utils
+
 from nltk.corpus import mac_morpho
 from nltk.corpus import brown
 from nltk.corpus import stopwords as stopwordsNLTK
@@ -226,36 +225,56 @@ class TextProcessing():
     """
     
     def tagging(self, documents, savePath, language):
-        nDocs = len(documents)
-        documentsProcessed = []
+        # nDocs = len(documents)
+        # documentsProcessed = []
         unigram_tagger = []
-        from data_core.file_utils import FileUtils
-        file_utils = FileUtils(savePath)
+        train_set_lower = []
+
+        # from data_core.file_utils import FileUtils
+        # file_utils = FileUtils(savePath)
+        
+        # print documents
+
         try:
             unigram_tagger = file_utils.load_object('tagger_' + language,'tagger')          
         except:
             if language == "pt":            
                 train_set = mac_morpho.tagged_sents()
-            elif language == "en":
-                train_set = brown.tagged_sents(tagset='universal')
-                #print(train_set[0:1])
-                nSents = len(train_set)
-                train_set_lower = []
-                for iSent in range(0,nSents):
-                    nWords = len(train_set[iSent])
-                    words = []
-                    for iWord in range(0,nWords):
-                        words.append((self.text_lower_one([train_set[iSent][iWord][0]])[0],train_set[iSent][iWord][1]))
-                    
-                    train_set_lower.append(words)
+
+            # elif language == "en":
+            #     train_set = brown.tagged_sents(tagset='universal')
+            #     #print(train_set[0:1])
+            #     nSents = len(train_set)
+            #     train_set_lower = []
+            #     for iSent in range(0,nSents):
+            #         nWords = len(train_set[iSent])
+            #         words = []
+            #         for iWord in range(0,nWords):
+            #             words.append((self.text_lower_one([train_set[iSent][iWord][0]])[0],train_set[iSent][iWord][1]))
+              
+            #         train_set_lower.append(words)
                 
                 
-            #print(train_set_lower[0:1])   
-            #test_set =  mac_morpho.tagged_sents()[10001:10010]   
-            unigram_tagger = nltk.UnigramTagger(train_set_lower)
-            file_utils.save_object(unigram_tagger, 'tagger_' + language,'tagger')
+        #     # print(train_set_lower[0:1])   
+        #     test_set =  mac_morpho.tagged_sents()[10001:10010]
+
+        #     print 'antes do mac morpho'
+            unigram_tagger = nltk.UnigramTagger(train_set)
+            # tagger = nltk.BigramTagger(train_set)
+        #     print 'depois do mac morpho'
+
+        #     string = unigram_tagger, 'tagger_' + language,'tagger'
+        #     print string
+        # #     # file_utils.save_object(unigram_tagger, 'tagger_' + language,'tagger')
+        #     print unigram_tagger.tag(documents[0])
         
-        for iDoc in range(0,nDocs):
-            #tokens = documents[iDoc]
-            documentsProcessed.append(unigram_tagger.tag(documents[iDoc]))
-        return documentsProcessed
+        
+        # for iDoc in range(0,nDocs):
+        #     #tokens = documents[iDoc]
+        #     # documentsProcessed.append(unigram_tagger.tag(documents[iDoc]))
+        #     print unigram_tagger.tag(['isto', 'é', 'um', 'teste'])
+        # return documentsProcessed
+
+        print tagger.tag(documents[0])
+
+        return ''
