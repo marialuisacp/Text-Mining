@@ -259,7 +259,7 @@ class TextProcessing():
         #     test_set =  mac_morpho.tagged_sents()[10001:10010]
 
         #     print 'antes do mac morpho'
-            unigram_tagger = nltk.UnigramTagger(train_set)
+            tagger = nltk.UnigramTagger(train_set)
             # tagger = nltk.BigramTagger(train_set)
         #     print 'depois do mac morpho'
 
