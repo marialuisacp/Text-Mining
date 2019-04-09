@@ -2,22 +2,37 @@
 
 from text_mining import TextProcessing
 import sys
+import nltk
+from nltk.corpus import floresta
 
 def main():
-	# f=open("teste.txt", "r")
-	# if f.mode == 'r':
-	# 	contents =f.read()
-	# f.close()
+	# def simplify_tag(t):
+	#     if "+" in t:
+	#         return t[t.index("+")+1:]
+	#     else:
+	#         return t
+	
+	# tsents = floresta.tagged_sents()
+	# tsents = [[(w.lower(),simplify_tag(t)) for (w,t) in sent] for sent in tsents if sent]
+	# train = tsents[100:]
+	# print train
+
+	lines = []
 
 	filename = sys.argv[1]
-	lines = [line.rstrip('\n') for line in open(filename)]
+	for line in open(filename):
+        	# lines.append(line);
+		sentence = []
+		words = line.split()
+		for word in words:
+			sentence.append(word);
+		lines.append(sentence);
+
+	print lines
+	# lines = [line.rstrip(' ') for line in open(filename)]
 	
 	txtProcessing = TextProcessing()
-	txtProcessing.tagging([lines], '.', 'pt')
-
-	# return ''
-
-
+	txtProcessing.tagging(lines, '.', 'pt')
 
 
 main()
