@@ -23,11 +23,10 @@ import unicodedata
 from nltk.corpus import mac_morpho
 from nltk.corpus import brown
 from nltk.corpus import stopwords as stopwordsNLTK
+from nltk.corpus import floresta
 
 class TextProcessing():
-    
-                
-    
+        
     def pre_processing_sample(self, sample, stopwords, listSym):   
         #Processa uma amostra de texto
        
@@ -63,6 +62,7 @@ class TextProcessing():
         documentsProcessed = []   
         for iDoc in range(0,nDocs):        
             #adicionar a lista
+            print nltk.bigrams(documents[iDoc])
             documentsProcessed.append(nltk.bigrams(documents[iDoc]))    
         return documentsProcessed
        # print docsPro[0:10]
@@ -212,24 +212,34 @@ class TextProcessing():
                 #print unicode(tokens[iToken])
                 #print tokens[iToken].decode('utf-8')
                 #raw_input('----------------------------')
-                strNorm = unicodedata.normalize('NFKD', tokens[iToken]) #.decode('utf-8')
+                # strNorm = unicodedata.normalize('NFKD', tokens[iToken]).decode('utf-8')
                 #strNorm = bytes(strNorm,'utf-8').decode('utf-8')
                 tokens[iToken] = strNorm.encode('ASCII', 'ignore').decode()            
                 #print(tokens[iToken])
                 #raw_input('-------------')
             documentsProcessed.append(tokens)
         return documentsProcessed
-        
+ 
     """
     Faz um tagging (analise morfologica de uma lista de documentos)
     """
     
     def tagging(self, documents, savePath, language):
-        # nDocs = len(documents)
+        nDocs = len(documents)
         # documentsProcessed = []
         unigram_tagger = []
         train_set_lower = []
 
+        # def simplify_tag(t):
+        #     if "+" in t:
+        #         return t[t.index("+")+1:]
+        #     else:
+        #         return t    
+    
+        # tsents = floresta.tagged_sents()
+        # tsents = [[(w.lower(),simplify_tag(t)) for (w,t) in sent] for sent in tsents if sent]
+        # train = tsents[100:]
+        
         # from data_core.file_utils import FileUtils
         # file_utils = FileUtils(savePath)
         
@@ -240,6 +250,7 @@ class TextProcessing():
         except:
             if language == "pt":            
                 train_set = mac_morpho.tagged_sents()
+                # train_set = train;
 
             # elif language == "en":
             #     train_set = brown.tagged_sents(tagset='universal')
@@ -260,7 +271,11 @@ class TextProcessing():
 
         #     print 'antes do mac morpho'
         #    tagger = nltk.UnigramTagger(train_set)
-	    tagger = nltk.BigramTagger(train_set)
+
+
+            tagger0 = nltk.DefaultTagger('n')
+            tagger1 = nltk.UnigramTagger(train_set, backoff=tagger0)
+            tagger2 = nltk.BigramTagger(train_set, backoff=tagger1)
 
             # tagger = nltk.BigramTagger(train_set)
         #     print 'depois do mac morpho'
@@ -271,12 +286,10 @@ class TextProcessing():
         #     print unigram_tagger.tag(documents[0])
         
         
-        # for iDoc in range(0,nDocs):
-        #     #tokens = documents[iDoc]
-        #     # documentsProcessed.append(unigram_tagger.tag(documents[iDoc]))
-        #     print unigram_tagger.tag(['isto', 'é', 'um', 'teste'])
-        # return documentsProcessed
+        for iDoc in range(0,nDocs):
+           print tagger2.tag(documents[iDoc])
 
-        print tagger.tag(documents[0])
+
+        # print tagger.tag(documents[0])
 
         return ''

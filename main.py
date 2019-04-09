@@ -21,18 +21,24 @@ def main():
 
 	filename = sys.argv[1]
 	for line in open(filename):
-        	# lines.append(line);
-		sentence = []
-		words = line.split()
-		for word in words:
-			sentence.append(word);
-		lines.append(sentence);
+		lines.append(line)
+		# sentence = []
+		# words = line.split()
+		# for word in words:
+		# 	sentence.append(word);
+		# lines.append(sentence);
 
-	print lines
-	# lines = [line.rstrip(' ') for line in open(filename)]
+	# print lines
+	# # lines = [line.rstrip(' ') for line in open(filename)]
 	
 	txtProcessing = TextProcessing()
-	txtProcessing.tagging(lines, '.', 'pt')
+	# txtProcessing.tagging(lines, '.', 'pt')
 
+	dataDocuments = txtProcessing.tokenize(lines)
+	# without_accent = txtProcessing.remove_accents(dataDocuments)
+	# nao_desistir = txtProcessing.tokenizeBigram(teste)
+	# print nao_desistir
+
+	txtProcessing.tagging(dataDocuments, '.', 'pt')
 
 main()
