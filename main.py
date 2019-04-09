@@ -28,17 +28,8 @@ def main():
 		# 	sentence.append(word);
 		# lines.append(sentence);
 
-	# print lines
-	# # lines = [line.rstrip(' ') for line in open(filename)]
-	
 	txtProcessing = TextProcessing()
-	# txtProcessing.tagging(lines, '.', 'pt')
-
 	dataDocuments = txtProcessing.tokenize(lines)
-	# without_accent = txtProcessing.remove_accents(dataDocuments)
-	# nao_desistir = txtProcessing.tokenizeBigram(teste)
-	# print nao_desistir
-
 	txtProcessing.tagging(dataDocuments, '.', 'pt')
 
 main()
